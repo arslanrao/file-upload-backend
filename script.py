@@ -6,6 +6,8 @@ app = Flask(__name__)
 
 # Configure CORS to allow requests from your frontend origin
 CORS(app, resources={r"/*": {"origins": "https://file-upload-demo.netlify.app"}}, supports_credentials=True)
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
+
 
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -30,7 +32,7 @@ def upload_file():
 def _build_cors_prelight_response():
     response = jsonify({'status': 'Preflight request passed'})
     response.headers.add('Access-Control-Allow-Origin', 'https://file-upload-demo.netlify.app')
-    response.headers.add('Access-Control-Allow-Methods', 'POST, OPTIONS')
+    response.headers.add('Access-Control-Allow-Methods', 'GET', 'POST', 'OPTIONS')
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Authorization')
     response.headers.add('Access-Control-Allow-Credentials', 'true')
     return response
@@ -39,7 +41,7 @@ def _build_cors_prelight_response():
 def add_cors_headers(response):
     # Add CORS headers to every response
     response.headers.add('Access-Control-Allow-Origin', 'https://file-upload-demo.netlify.app')
-    response.headers.add('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+    response.headers.add('Access-Control-Allow-Methods', 'GET', 'POST', 'OPTIONS')
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Authorization')
     response.headers.add('Access-Control-Allow-Credentials', 'true')
     return response
